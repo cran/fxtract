@@ -1,0 +1,48 @@
+---
+title: "R6 Class Xtractor - How to Update Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{fxtract}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+Use case:
+
+- Data from some IDS changes.
+- We want to update the datasets.
+
+```{r test-main, child = 'xtractor_setup_child.Rmd', message = FALSE}
+```
+
+All features have been calculated:
+```{r, message = FALSE}
+xtractor$results
+```
+
+Let's change the dataset for the species `virginica`:
+```{r, warning = FALSE, message = FALSE}
+library(dplyr)
+iris_vers = iris %>% filter(Species == "virginica")
+iris_vers$Sepal.Length = abs(rnorm(nrow(iris_vers)))
+```
+
+## Delete Old Data
+Datasets are saved as RDS files (one file for each ID of the grouping variable). Single RDS files can be removed:
+```{r, message = FALSE}
+xtractor$remove_data("virginica")
+```
+
+## Add New Data
+```{r, message = FALSE}
+xtractor$add_data(iris_vers, group_by = "Species")
+```
+
+## Calculate Features 
+```{r, message = FALSE}
+xtractor$calc_features()
+xtractor$results
+```
+
+```{r, echo = FALSE}
+unlink("fxtract_files", recursive = TRUE)
+```

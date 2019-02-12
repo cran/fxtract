@@ -1,0 +1,81 @@
+---
+title: "R6 Class Xtractor"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{fxtract}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE}
+unlink("fxtract_files", recursive = TRUE)
+```
+
+- Designed for large projects.
+- Data and features can be updated easily.
+- Data can be preprocessed.
+- Features are calculated on each ID of a grouping variable individually.
+- Easy parallelization with `future`.
+- Scales nicely for larger datasets. Data is only read into RAM, when needed.
+
+```{r, message = FALSE}
+library(fxtract)
+xtractor = Xtractor$new("xtractor")
+```
+
+## Add Data
+Data must be added as dataframes with `$add_data`, where the grouping variable must be specified.
+You can also add dataframes for each ID individually. This is especially helpful for large datasets.
+
+- Add all data at once:
+```{r, message = FALSE, warning = FALSE}
+xtractor$add_data(iris, group_by = "Species")
+```
+
+- Add datasets individually:
+```{r, message = FALSE, warning = FALSE}
+library(dplyr)
+for (i in unique(iris$Species)) {
+  iris_i = iris %>% filter(Species == i)
+  xtractor$add_data(iris_i, group_by = "Species")
+}  
+```
+
+
+## Add Features
+Features must be added as functions which have a dataframe as input and a named vector as output.
+A named list with atomic entries of length 1 is also allowed as output (useful for numerical and categorical outputs).
+This function will be calculated for each ID of a grouping variable individually.
+```{r, message = FALSE}
+fun1 = function(data) {
+  c(mean_sepal_length = mean(data$Sepal.Length),
+    sd_sepal_length = sd(data$Sepal.Length))
+}
+
+fun2 = function(data) {
+  list(mean_petal_length = mean(data$Petal.Length),
+    sd_petal_length = sd(data$Petal.Length))
+}
+```
+
+
+```{r, message = FALSE}
+xtractor$add_feature(fun1)
+xtractor$add_feature(fun2)
+```
+
+## Calculate Features
+Features are calculated by the method `$calc_features()`:
+```{r, message = FALSE}
+xtractor$calc_features()
+```
+
+## Collect Results
+The desired final dataframe can be accessed by the slot `$results`:
+```{r, message = FALSE}
+xtractor$results
+```
+
+```{r, echo = FALSE}
+unlink("fxtract_files", recursive = TRUE)
+```
