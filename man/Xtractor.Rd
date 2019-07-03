@@ -48,7 +48,7 @@ A big advantage of this method is that it scales nicely for larger datasets. Dat
 \describe{
 \item{\code{add_data(data, group_by)}}{[data: (`data.frame` | `data.table`)] A dataframe or data.table which shall be added to the R6 object. \cr
  [group_by: (`character(1)`)] The grouping variable's name of the dataframe. \cr \cr
- This method writes single RDS files (this can be parallelized with future)}
+ This method writes single RDS files for each group.}
 \item{\code{preprocess_data(fun)}}{[fun: (`function`)] A function, which has a dataframe as input and a dataframe as output. \cr \cr
  This method loads the RDS files and applies this function on them. The old RDS files are overwritten.}
 \item{\code{remove_data(ids)}}{[ids: (`character()`)] One or many IDs of the grouping variable. \cr \cr
@@ -62,9 +62,9 @@ A big advantage of this method is that it scales nicely for larger datasets. Dat
  This method removes the function from the object and deletes all corresponding files and results.}
 \item{\code{get_feature(fun)}}{[fun: (`character(1)`)] The name of a function as character. \cr \cr
  This method reads the RDS file of the function. Useful for debugging after loading an Xtractor.}
-\item{\code{calc_features(features, force)}}{[features: (`character()`)] A character vector of the names of the features which shall be calculated. Defaults to all features. \cr
-[force: (`logical(1)`)] The default action is to skip feature functions, which already have been calculated once. Set to \code{TRUE} for forcing re-calculation. \cr \cr
-This method calculates all features on all datasets.}
+\item{\code{calc_features(features, ids)}}{[features: (`character()`)] A character vector of the names of the features which shall be calculated. Defaults to all features. \cr
+[ids: (`character()`)] One or many IDs of the grouping variable. Defaults to all IDs. \cr \cr
+This method calculates all features on the chosen IDs.}
 \item{\code{retry_failed_features(features)}}{[features: (`character()`)] A character vector of the names of the features which shall be calculated. Defaults to all features. \cr \cr
 This method retries calculation of failed features. Useful if calculation failed because of memory problems.}
 \item{\code{plot()}}{[internal] method to print the R6 object.}

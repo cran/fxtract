@@ -6,6 +6,10 @@ Status](https://travis-ci.org/QuayAu/fxtract.svg?branch=master)](https://travis-
 [![codecov](https://codecov.io/gh/QuayAu/fxtract/branch/master/graph/badge.svg)](https://codecov.io/gh/QuayAu/fxtract)
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github/QuayAu/fxtract?branch=master&svg=true)](https://ci.appveyor.com/project/QuayAu/fxtract)
+[![CRAN](https://www.r-pkg.org/badges/version/fxtract)](https://cran.r-project.org/package=fxtract)
+[![cran
+checks](https://cranchecks.info/badges/worst/fxtract)](https://cran.r-project.org/web/checks/check_results_fxtract.html)
+[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/fxtract)](https://cran.r-project.org/package=fxtract)
 
 # fxtract
 
@@ -33,15 +37,20 @@ collecting the results in one final dataframe) is handled by `fxtract`.
 This package works with very large datasets and many different IDs and
 the main functionality is written in
 [R6](https://r6.r-lib.org/articles/Introduction.html). Parallelization
-is available via
-[future](https://cran.r-project.org/web/packages/future/index.html).
+is available via [future](https://cran.r-project.org/package=future).
 
 See the [tutorial](https://quayau.github.io/fxtract/) on how to use this
 package.
 
 # Installation
 
-For the development version, use
+For the release version use:
+
+``` r
+install.packages("fxtract")
+```
+
+For the development version use
 [devtools](https://cran.r-project.org/package=devtools):
 
 ``` r
